@@ -545,8 +545,10 @@ fn handle_actions(self: *Self) void {
             .modify_mfact => |data| {
                 if (context.current_output) |output| {
                     switch (output.current_layout()) {
-                        .tile => config.layout.tile.mfact = @min(1, @max(1, config.layout.tile.mfact+data.step)),
-                        .scroller => config.layout.scroller.mfact = @min(1, @max(0, config.layout.scroller.mfact+data.step)),
+                        .tile => config.layout.tile.mfact = @min(1, @max(0, config.layout.tile.mfact+data.step)),
+                        .scroller => if (context.focus_top_in(output, false)) |window| {
+                            window.scroller_mfact = @min(1, @max(0, window.scroller_mfact+data.step));
+                        },
                         else => {},
                     }
                 }
