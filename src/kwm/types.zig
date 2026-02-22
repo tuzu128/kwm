@@ -2,6 +2,7 @@ const wayland = @import("wayland");
 const river = wayland.client.river;
 
 pub const Button = enum(u32) {
+    none = 0,
     left = 0x110,
     right = 0x111,
     middle = 0x112,
